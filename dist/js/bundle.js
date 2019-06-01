@@ -239,6 +239,32 @@ module.exports = modal;
 
 /***/ }),
 
+/***/ "./src/js/parts/valid.js":
+/*!*******************************!*\
+  !*** ./src/js/parts/valid.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function valid() {
+  // Валидация данных ввода в инпуты
+  document.body.addEventListener("input", e => {
+    let target = e.target;
+
+    if (target.getAttribute("name") === "phone") {
+      target.value = "+" + target.value.replace(/[^0-9]/g, "").substring(0,12);
+      if (target.value.length == 1) {
+        target.value = "";
+      }
+    }
+
+  });
+}
+
+module.exports = valid;
+
+/***/ }),
+
 /***/ "./src/js/script.js":
 /*!**************************!*\
   !*** ./src/js/script.js ***!
@@ -250,20 +276,20 @@ window.addEventListener('DOMContentLoaded', function () {
 
   'use strict';
 let modal = __webpack_require__(/*! ./parts/modal.js */ "./src/js/parts/modal.js"),
-    form = __webpack_require__(/*! ./parts/form.js */ "./src/js/parts/form.js");
+    form = __webpack_require__(/*! ./parts/form.js */ "./src/js/parts/form.js"),
+    valid = __webpack_require__(/*! ./parts/valid.js */ "./src/js/parts/valid.js");
     // calc = require('./parts/calc.js'),
     // slider = require('./parts/slider.js'),
     // tabs = require('./parts/tabs.js'),
     // timer = require('./parts/timer.js'),
-    // valid = require('./parts/valid.js');
 
   modal();
   form();
+  valid();
   // calc();
   // slider();
   // tabs();
   // timer();
-  // valid();
 });
 
 /***/ })
