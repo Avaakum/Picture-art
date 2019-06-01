@@ -1,13 +1,7 @@
 const form = () => {
 
-    // Отправку формы на сервер 
-    // let message = {
-    //     loading: 'Идет отправка..',
-
-    // };
 
     let statusMessge = document.createElement('div');
-    statusMessge.classList.add('status');
 
     let statusImg = document.createElement('img'),
         popup = document.querySelectorAll('.popup-content');
