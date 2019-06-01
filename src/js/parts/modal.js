@@ -3,7 +3,6 @@ const modal = () => {
   let overlayOrder = document.querySelector('.popup-design'),
       overlayConsult = document.querySelector('.popup-consultation'),
       overlayGift = document.querySelector('.popup-gift'),
-      //избавились от всех лишних переменных, оставили только оверлей
       isActiveBtn; //об. проверочную переменную
 
   const bindModal = (overlay, overlayStatus, overflowStatus, elem) => {
@@ -15,10 +14,6 @@ const modal = () => {
     overlay.style.display = overlayStatus;
     document.body.style.overflow = overflowStatus;
   };
-
-
-  
-
 
   document.body.addEventListener('click', e => {
 

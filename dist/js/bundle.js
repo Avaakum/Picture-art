@@ -86,6 +86,69 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/parts/calc.js":
+/*!******************************!*\
+  !*** ./src/js/parts/calc.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+let calc = () => {
+
+  let selectBlock = document.querySelector('.select-block'),
+      size = document.getElementById('size'),
+      material = document.getElementById('material'),
+      services = document.getElementById('options'),
+      promo = document.querySelector('.promocode'),
+      totalValue = document.querySelector('.calc-price'),
+      sizeSum = 0,
+      materialSum = 0,
+      servicesSum = 0,
+      total = 0;
+
+  selectBlock.addEventListener('input', function () {
+    sizeSum = size.options[size.selectedIndex].value;
+    materialSum = material.options[material.selectedIndex].value;
+    servicesSum = +services.options[services.selectedIndex].value;
+    total = sizeSum * materialSum;
+
+    if (sizeSum == 0 || materialSum == 0) {
+      totalValue.innerHTML = "Для расчета нужно выбрать размер картины и материал картины";
+    } else if (sizeSum != 0 && materialSum != 0 && promo.value == "IWANTPOPART") {
+      console.log(1);
+      let a = +total;
+      totalValue.innerHTML = "Стоимость картины: " + (a + servicesSum)*0.7 + 'руб';
+    } else {
+      let a = +total;
+      totalValue.innerHTML = "Стоимость картины: " + (a + servicesSum) + 'руб';
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
+
+module.exports = calc;
+
+/***/ }),
+
 /***/ "./src/js/parts/form.js":
 /*!******************************!*\
   !*** ./src/js/parts/form.js ***!
@@ -194,7 +257,6 @@ const modal = () => {
   let overlayOrder = document.querySelector('.popup-design'),
       overlayConsult = document.querySelector('.popup-consultation'),
       overlayGift = document.querySelector('.popup-gift'),
-      //избавились от всех лишних переменных, оставили только оверлей
       isActiveBtn; //об. проверочную переменную
 
   const bindModal = (overlay, overlayStatus, overflowStatus, elem) => {
@@ -206,10 +268,6 @@ const modal = () => {
     overlay.style.display = overlayStatus;
     document.body.style.overflow = overflowStatus;
   };
-
-
-  
-
 
   document.body.addEventListener('click', e => {
 
@@ -277,8 +335,8 @@ window.addEventListener('DOMContentLoaded', function () {
   'use strict';
 let modal = __webpack_require__(/*! ./parts/modal.js */ "./src/js/parts/modal.js"),
     form = __webpack_require__(/*! ./parts/form.js */ "./src/js/parts/form.js"),
-    valid = __webpack_require__(/*! ./parts/valid.js */ "./src/js/parts/valid.js");
-    // calc = require('./parts/calc.js'),
+    valid = __webpack_require__(/*! ./parts/valid.js */ "./src/js/parts/valid.js"),
+    calc = __webpack_require__(/*! ./parts/calc.js */ "./src/js/parts/calc.js");
     // slider = require('./parts/slider.js'),
     // tabs = require('./parts/tabs.js'),
     // timer = require('./parts/timer.js'),
@@ -286,7 +344,7 @@ let modal = __webpack_require__(/*! ./parts/modal.js */ "./src/js/parts/modal.js
   modal();
   form();
   valid();
-  // calc();
+  calc();
   // slider();
   // tabs();
   // timer();
