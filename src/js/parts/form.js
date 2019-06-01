@@ -1,13 +1,8 @@
 const form = () => {
 
-
-    let statusMessge = document.createElement('div');
-
-    let statusImg = document.createElement('img'),
+    let statusMessge = document.createElement('div'),
+        statusImg = document.createElement('img'),
         popup = document.querySelectorAll('.popup-content');
-
-
-
 
     const sendForm = (elem) => {
 
@@ -84,7 +79,7 @@ const form = () => {
         setTimeout(() => {
             statusImg.remove();
             target.style.display = 'block';
-        }, 5000);
+        }, 4500);
     });
 };
 
