@@ -7,29 +7,34 @@ const filter = () => {
     lovers = document.querySelectorAll('.portfolio-block.lovers'),
     guy = document.querySelectorAll('.portfolio-block.guy'),
     chef = document.querySelectorAll('.portfolio-block.chef'),
-    noPortf = document.querySelector('.portfolio-no');
+    noPortf = document.querySelectorAll('.portfolio-no');
 
 
   const bindContent = (a, portfBlock, targetArg) => {
+    
+    for (let i = 0; i < noPortf.length; i++) {
+      noPortf[i].style.display = 'none';
+    }
+
     for (let i = a; i < buttons.length; i++) {
       buttons[i].classList.remove('active');
     }
-
+    
     if (targetArg) {
       targetArg.classList.add('active');
     }
-
+    
     for (let i = 0; i < all.length; i++) {
       all[i].style.display = 'none';
     }
-
+    
     if (portfBlock) {
       for (let i = 0; i < portfBlock.length; i++) {
         portfBlock[i].style.display = 'block';
       }
     }
+    
 
-    noPortf.style.display = 'none';
 
   };
 
@@ -56,12 +61,11 @@ const filter = () => {
       bindContent(0, chef, target);
     }
     if (target && target.classList.contains('grandmother')) {
-      bindContent(0);
-      noPortf.style.display = 'block';
+      bindContent(0, noPortf, target);
     }
     if (target && target.classList.contains('granddad')) {
-      bindContent(0);
-      noPortf.style.display = 'block';
+      bindContent(0, noPortf, target);
+
     }
   });
 
