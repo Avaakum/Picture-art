@@ -4,7 +4,8 @@ window.addEventListener('DOMContentLoaded', function () {
 let modal = require('./parts/modal.js'),
     form = require('./parts/form.js'),
     valid = require('./parts/valid.js'),
-    calc = require('./parts/calc.js');
+    calc = require('./parts/calc.js'),
+    filter = require('./parts/filter.js');
     // slider = require('./parts/slider.js'),
     // tabs = require('./parts/tabs.js'),
     // timer = require('./parts/timer.js'),
@@ -13,6 +14,7 @@ let modal = require('./parts/modal.js'),
   form();
   valid();
   calc();
+  filter();
   // slider();
   // tabs();
   // timer();
