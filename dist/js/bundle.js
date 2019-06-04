@@ -94,64 +94,50 @@
 /***/ (function(module, exports) {
 
 const accordion = () => {
-  //пишем табы
-  // let tab = document.querySelectorAll('.accordion-heading'),
+
   let tab = document.querySelectorAll('.accordion-heading > span'),
       tabContent = document.querySelectorAll('.accordion-block');
 
 
   const hideTabContent = (a) => {
+
     for (let i = a; i < tabContent.length; i++) {
       tabContent[i].classList.remove('ui-accordion-header-active', 'animated', 'fadeInDown', 'slower');
       tabContent[i].style.display = 'none';
-      // tab[i].style.color = 'black';
-      // tab[i].style.borderBottom = '2px dotted #333';
       tab[i].style.cssText = `color: black; \
         border-bottom: 2px dotted #333; \
         font-size: 2.2rem; \
         `;
-
-
-
-
-
-      // tabContent[i].classList.remove('show');
-      // tabContent[i].classList.add('hide');
     }
   };
+
   hideTabContent(0);
 
   const showTabContent = (b) => {
-    // if (tabContent[b].classList.contains('hide')) {
-      // tabContent[b].classList.remove('hide');
-      tabContent[b].style.display = 'block';
-      tabContent[b].classList.add('ui-accordion-header-active', 'animated', 'fadeInDown', 'slower');
 
-      // tab[b].style.color = '#c51abb';
-      // tab[b].style.border = 'none';
-        tab[b].style.cssText = `color: #c51abb; \
-        border-bottom: none; \
-        font-size: 3rem; \
-        `;
-      
-    // }
+    tabContent[b].style.display = 'block';
+    tabContent[b].classList.add('ui-accordion-header-active', 'animated', 'fadeInDown', 'slower');
+    tab[b].style.cssText = `color: #c51abb; \
+      border-bottom: none; \
+      font-size: 3rem; \
+      `;
   };
 
-  // Уже во втором блоке встречаюсь с проблемой, что если получаю event.target по клику и проверяю по classList.contains, то при клике на родителя событие
-  // срабатывает, а при клике потомков ничего не происходит, что я уже не делал(в том числе менял z-index), не понимаю в чем дело... кто-нибудь с таким 
-  // сталкивался?
 
   document.body.addEventListener('click', e => {
 
     let target = e.target;
     
     if (target.classList.contains('tab-head')) {
-      
       for (let i = 0; i < tab.length; i++) {
         if (target == tab[i]) {
-          hideTabContent(0);
-          showTabContent(i);
-          break;
+          if (tabContent[i].classList.contains('ui-accordion-header-active')) {
+             hideTabContent(0);
+          } else {
+            hideTabContent(0);
+            showTabContent(i);
+            break;
+          }
         }
       }
     }
@@ -297,87 +283,96 @@ module.exports = filter;
 
 const form = () => {
 
-    let statusMessge = document.createElement('div'),
-        statusImg = document.createElement('img'),
-        popup = document.querySelectorAll('.popup-content');
+    let globalSendForm = (popupCont, classModalBlock) => {
 
-    const sendForm = (elem) => {
-
-        elem.appendChild(statusMessge);
-
-        let promise = new Promise((resolve, reject) => {
-
-            let request = new XMLHttpRequest();
-
-            request.open('POST', '../src/server.php');
-            request.setRequestHeader('Contetnt-type', 'application/json; charset=utf-8');
-
-            let formData = new FormData(elem),
-                obj = {};
-
-            formData.forEach((value, key) => {
-                obj[key] = value;
+        let statusMessge = document.createElement('div'),
+            statusImg = document.createElement('img'),
+            popup = document.querySelectorAll(popupCont);
+    
+        const sendForm = (elem) => {
+    
+            elem.appendChild(statusMessge);
+    
+            let promise = new Promise((resolve, reject) => {
+    
+                let request = new XMLHttpRequest();
+    
+                request.open('POST', '../src/server.php');
+                request.setRequestHeader('Contetnt-type', 'application/json; charset=utf-8');
+    
+                let formData = new FormData(elem),
+                    obj = {};
+    
+                formData.forEach((value, key) => {
+                    obj[key] = value;
+                });
+    
+                let json = JSON.stringify(obj);
+                request.send(json);
+    
+                request.addEventListener('readystatechange', () => {
+                    if (request.readyState < 4) {
+                        statusMessge.innerHTML = 'Идет отправка..';
+                    } else if (request.readyState === 4 && request.status == 200) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                });
             });
-
-            let json = JSON.stringify(obj);
-            request.send(json);
-
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState < 4) {
-                    statusMessge.innerHTML = 'Идет отправка..';
-                } else if (request.readyState === 4 && request.status == 200) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-        });
-
-        return promise;
-    };
-
-    const clearInput = (elem) => {
-        for (let i = 0; i < elem.length; i++) {
-            elem[i].value = '';
-        }
-    };
-
-    const putImg = (target, source) => {
-        for (let i = 0; i < popup.length; i++) {
-            if (target == popup[i].querySelector('form')) {
-                popup[i].appendChild(statusImg);
-                statusImg.src = source;
-                statusImg.style.cssText = `display: block; \
-                        max-width: 100%; \
-                        `;
+    
+            return promise;
+        };
+    
+        const clearInput = (elem) => {
+            for (let i = 0; i < elem.length; i++) {
+                elem[i].value = '';
             }
-        }
+        };
+    
+        const putImg = (target, source) => {
+            for (let i = 0; i < popup.length; i++) {
+                if (target == popup[i].querySelector('form')) {
+                    popup[i].appendChild(statusImg);
+                    statusImg.src = source;
+                    statusImg.style.cssText = `display: block; \
+                            max-width: 100%; \
+                            max-height: 200px; \
+                            margin: auto; \
+                            `;
+                }
+            }
+        };
+    
+        let modalBlock = document.querySelector(classModalBlock);
+    
+        modalBlock.addEventListener('submit', e => {
+    
+            let target = e.target;
+    
+            e.preventDefault();
+            sendForm(target)
+                .then(() => {
+                    statusMessge.innerHTML = "";
+                    target.style.display = 'none';
+                    putImg(target, "../src/img/okay.png");
+                })
+                .catch(() => {
+                    statusMessge.innerHTML = "";
+                    target.style.display = 'none';
+                    putImg(target, "../src/img/browser.png");
+                })
+                .then(clearInput(target));
+            setTimeout(() => {
+                statusImg.remove();
+                target.style.display = 'block';
+            }, 4500);
+        });
     };
 
-    let modalBlock = document.querySelector('.modal-block');
+    globalSendForm('.popup-content', '.modal-block');
+    globalSendForm('.popup-content-2', '.consultation');
 
-    modalBlock.addEventListener('submit', e => {
-
-        let target = e.target;
-
-        e.preventDefault();
-        sendForm(target)
-            .then(() => {
-                statusMessge.innerHTML = "";
-                target.style.display = 'none';
-                putImg(target, "../src/img/okay.png");
-            })
-            .catch(() => {
-                statusMessge.innerHTML = "";
-                target.style.display = 'none';
-                putImg(target, "../src/img/browser.png");
-            })
-            .then(clearInput(target));
-        setTimeout(() => {
-            statusImg.remove();
-            target.style.display = 'block';
-        }, 4500);
-    });
 };
 
 module.exports = form;
