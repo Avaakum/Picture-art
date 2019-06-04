@@ -928,7 +928,7 @@ h4 {
   border-bottom: 2px dotted #333;
 }
 .often-questions .accordion-block {
-  margin-top: 6rem;
+  margin-top: 0;
   margin-bottom: 4rem;
   background-color: #f7e7e6;
   padding: 3rem 4rem;
@@ -943,12 +943,9 @@ h4 {
   border-bottom: 3rem solid #f7e7e6;
 }
 .often-questions .ui-accordion-header-active {
-  /* display: block; */
   cursor: auto;
-  /* margin-bottom: 4rem; */
 }
 .often-questions .ui-accordion-header-active span {
-  /* color: #c51abb; */
   border-bottom: none;
 }
 .often-questions .ui-accordion-content-active {
