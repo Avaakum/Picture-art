@@ -440,18 +440,38 @@ module.exports = modal;
 
 const slider = () => {
 
-
   let slideIndex = 1,
       btnNext = document.querySelector('.main-slider-btn.main-next-btn img'),
       btnPrev = document.querySelector('.main-slider-btn.main-prev-btn img'),
+      stopSlider = document.querySelector('.feedback-slider'),
       slides = document.querySelectorAll('.feedback-slider-item');
 
   showSlides(slideIndex);
 
-  // let autoplay = setTimeout( function play() {
-  //   plusSlides(1);
-  //   setTimeout(play, 7000);
-  // });
+  let timer = null,
+      autoplay = setTimeout( function play() {
+        plusSlides(1);
+        timer = setTimeout(play, 7000);
+      });
+  
+  stopSlider.addEventListener('click', () => {
+    if (timer) {
+      console.log("остановлен");   
+      clearTimeout(timer);
+      timer = null;
+    } 
+  });
+  
+  stopSlider.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    if (!timer) {
+      console.log('запущен');
+      autoplay = setTimeout(function play() {
+        plusSlides(1);
+        timer = setTimeout(play, 7000);
+      });
+    }
+  });
 
   function showSlides(n) {
     if (n > slides.length) {
@@ -476,19 +496,16 @@ const slider = () => {
 
     if (target == btnPrev) {
       plusSlides(-1);
-      slides[slideIndex - 1].classList.remove('animated', 'fadeInRight');
-      
-
-
+      slides[slideIndex - 1].classList.remove('fadeInRight');
+      slides[slideIndex - 1].classList.add('fadeInLeft');
     }
+    
     if (target == btnNext) {
-
+      slides[slideIndex - 1].classList.remove('fadeInLeft');
       plusSlides(1);
     }
 
   });
-
-
 
 };
 
