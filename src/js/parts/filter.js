@@ -1,5 +1,5 @@
 const filter = () => {
-  //пишем табы
+
   let buttonBlock = document.querySelector('.portfolio-menu'),
     buttons = document.querySelectorAll('.portfolio-menu li'),
     all = document.querySelectorAll('.portfolio-block.all'),
@@ -34,8 +34,6 @@ const filter = () => {
       }
     }
     
-
-
   };
 
   bindContent(1, all);

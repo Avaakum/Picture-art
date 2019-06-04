@@ -1,13 +1,13 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded',  () => {
 
   'use strict';
 let modal = require('./parts/modal.js'),
     form = require('./parts/form.js'),
     valid = require('./parts/valid.js'),
     calc = require('./parts/calc.js'),
-    filter = require('./parts/filter.js');
-    // slider = require('./parts/slider.js'),
-    // tabs = require('./parts/tabs.js'),
+    filter = require('./parts/filter.js'),
+    slider = require('./parts/slider.js'),
+    accordion = require('./parts/accordion.js');
     // timer = require('./parts/timer.js'),
 
   modal();
@@ -15,7 +15,7 @@ let modal = require('./parts/modal.js'),
   valid();
   calc();
   filter();
-  // slider();
-  // tabs();
+  slider();
+  accordion();
   // timer();
 });

@@ -86,6 +86,82 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/parts/accordion.js":
+/*!***********************************!*\
+  !*** ./src/js/parts/accordion.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+const accordion = () => {
+  //пишем табы
+  // let tab = document.querySelectorAll('.accordion-heading'),
+  let tab = document.querySelectorAll('.accordion-heading > span'),
+      tabContent = document.querySelectorAll('.accordion-block');
+
+
+  const hideTabContent = (a) => {
+    for (let i = a; i < tabContent.length; i++) {
+      tabContent[i].classList.remove('ui-accordion-header-active', 'animated', 'fadeInDown', 'slower');
+      tabContent[i].style.display = 'none';
+      // tab[i].style.color = 'black';
+      // tab[i].style.borderBottom = '2px dotted #333';
+      tab[i].style.cssText = `color: black; \
+        border-bottom: 2px dotted #333; \
+        font-size: 2.2rem; \
+        `;
+
+
+
+
+
+      // tabContent[i].classList.remove('show');
+      // tabContent[i].classList.add('hide');
+    }
+  };
+  hideTabContent(0);
+
+  const showTabContent = (b) => {
+    // if (tabContent[b].classList.contains('hide')) {
+      // tabContent[b].classList.remove('hide');
+      tabContent[b].style.display = 'block';
+      tabContent[b].classList.add('ui-accordion-header-active', 'animated', 'fadeInDown', 'slower');
+
+      // tab[b].style.color = '#c51abb';
+      // tab[b].style.border = 'none';
+        tab[b].style.cssText = `color: #c51abb; \
+        border-bottom: none; \
+        font-size: 3rem; \
+        `;
+      
+    // }
+  };
+
+  // Уже во втором блоке встречаюсь с проблемой, что если получаю event.target по клику и проверяю по classList.contains, то при клике на родителя событие
+  // срабатывает, а при клике потомков ничего не происходит, что я уже не делал(в том числе менял z-index), не понимаю в чем дело... кто-нибудь с таким 
+  // сталкивался?
+
+  document.body.addEventListener('click', e => {
+
+    let target = e.target;
+    
+    if (target.classList.contains('tab-head')) {
+      
+      for (let i = 0; i < tab.length; i++) {
+        if (target == tab[i]) {
+          hideTabContent(0);
+          showTabContent(i);
+          break;
+        }
+      }
+    }
+  });
+};
+
+module.exports = accordion;
+
+/***/ }),
+
 /***/ "./src/js/parts/calc.js":
 /*!******************************!*\
   !*** ./src/js/parts/calc.js ***!
@@ -138,7 +214,7 @@ module.exports = calc;
 /***/ (function(module, exports) {
 
 const filter = () => {
-  //пишем табы
+
   let buttonBlock = document.querySelector('.portfolio-menu'),
     buttons = document.querySelectorAll('.portfolio-menu li'),
     all = document.querySelectorAll('.portfolio-block.all'),
@@ -173,8 +249,6 @@ const filter = () => {
       }
     }
     
-
-
   };
 
   bindContent(1, all);
@@ -362,6 +436,71 @@ module.exports = modal;
 
 /***/ }),
 
+/***/ "./src/js/parts/slider.js":
+/*!********************************!*\
+  !*** ./src/js/parts/slider.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+const slider = () => {
+
+
+  let slideIndex = 1,
+      btnNext = document.querySelector('.main-slider-btn.main-next-btn img'),
+      btnPrev = document.querySelector('.main-slider-btn.main-prev-btn img'),
+      slides = document.querySelectorAll('.feedback-slider-item');
+
+  showSlides(slideIndex);
+
+  // let autoplay = setTimeout( function play() {
+  //   plusSlides(1);
+  //   setTimeout(play, 7000);
+  // });
+
+  function showSlides(n) {
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+
+    slides.forEach(item => item.style.display = 'none'); 
+    slides[slideIndex - 1].classList.add('animated', 'fadeInRight');
+    slides[slideIndex - 1].style.display = 'block';
+  }
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  document.body.addEventListener('click', e => {
+
+    let target = e.target;
+
+    if (target == btnPrev) {
+      plusSlides(-1);
+      slides[slideIndex - 1].classList.remove('animated', 'fadeInRight');
+      
+
+
+    }
+    if (target == btnNext) {
+
+      plusSlides(1);
+    }
+
+  });
+
+
+
+};
+
+module.exports = slider;
+
+/***/ }),
+
 /***/ "./src/js/parts/valid.js":
 /*!*******************************!*\
   !*** ./src/js/parts/valid.js ***!
@@ -395,16 +534,16 @@ module.exports = valid;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded',  () => {
 
   'use strict';
 let modal = __webpack_require__(/*! ./parts/modal.js */ "./src/js/parts/modal.js"),
     form = __webpack_require__(/*! ./parts/form.js */ "./src/js/parts/form.js"),
     valid = __webpack_require__(/*! ./parts/valid.js */ "./src/js/parts/valid.js"),
     calc = __webpack_require__(/*! ./parts/calc.js */ "./src/js/parts/calc.js"),
-    filter = __webpack_require__(/*! ./parts/filter.js */ "./src/js/parts/filter.js");
-    // slider = require('./parts/slider.js'),
-    // tabs = require('./parts/tabs.js'),
+    filter = __webpack_require__(/*! ./parts/filter.js */ "./src/js/parts/filter.js"),
+    slider = __webpack_require__(/*! ./parts/slider.js */ "./src/js/parts/slider.js"),
+    accordion = __webpack_require__(/*! ./parts/accordion.js */ "./src/js/parts/accordion.js");
     // timer = require('./parts/timer.js'),
 
   modal();
@@ -412,8 +551,8 @@ let modal = __webpack_require__(/*! ./parts/modal.js */ "./src/js/parts/modal.js
   valid();
   calc();
   filter();
-  // slider();
-  // tabs();
+  slider();
+  accordion();
   // timer();
 });
 
